@@ -2,6 +2,18 @@
 
 **[Android Toolbox](https://github.com/cnwutianhao/android-toolbox)** is a powerful & easy to use library for Android.
 
+## Download
+
+build.gradle:
+```groovy
+implementation 'io.github.cnwutianhao:AndroidToolbox:1.0.1'
+```
+
+build.gradle.kts:
+```kotlin
+implementation("io.github.cnwutianhao:AndroidToolbox:1.0.1")
+```
+
 ## License
 
 ```
