@@ -4,14 +4,29 @@
 
 ## Download
 
-build.gradle:
-```groovy
-implementation 'io.github.cnwutianhao:AndroidToolbox:1.0.1'
+You can download a aar from GitHub's [releases page](https://github.com/cnwutianhao/android-toolbox/releases).
+
+Or use Gradle:
+
+```gradle
+repositories {
+  google()
+  mavenCentral()
+}
+
+dependencies {
+  implementation 'io.github.cnwutianhao:AndroidToolbox:1.0.1'
+}
 ```
 
-build.gradle.kts:
-```kotlin
-implementation("io.github.cnwutianhao:AndroidToolbox:1.0.1")
+Or Maven:
+
+```xml
+<dependency>
+    <groupId>io.github.cnwutianhao</groupId>
+    <artifactId>AndroidToolbox</artifactId>
+    <version>1.0.1</version>
+</dependency>
 ```
 
 ## APIs
