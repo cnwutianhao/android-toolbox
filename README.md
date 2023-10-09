@@ -1,6 +1,6 @@
 # Android Toolbox
 
-**[Android Toolbox](https://github.com/cnwutianhao/android-toolbox)** is a powerful & easy to use library for Android.
+**[Android Toolbox](https://central.sonatype.com/artifact/io.github.cnwutianhao/AndroidToolbox)** is a powerful & easy to use library for Android.
 
 ## Download
 
