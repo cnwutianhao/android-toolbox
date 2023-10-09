@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Build
+import com.tyhoo.android.toolbox.data.AppInfo
 
 /**
  * EN: Utils about App.
@@ -360,8 +361,40 @@ object AppUtils {
     /**
      * EN: Get app info
      * CN: 获取 App 信息
+     *
+     * @param context     Context
+     * @param packageName The name of the package
+     *
+     * @return the application's information
      */
-    fun getAppInfo() {
+    fun getAppInfo(context: Context, packageName: String?): AppInfo? {
+        packageName?.let { pkgName ->
+            val pm = context.packageManager
+            return try {
+                val pi = pm.getPackageInfo(pkgName, 0)
+                val ai = pi.applicationInfo
+
+                val name = ai.loadLabel(pm).toString()
+                val icon = ai.loadIcon(pm)
+                val packagePath = ai.sourceDir
+                val versionName = pi.versionName
+                val versionCode = pi.versionCode
+                var minSdkVersion = -1
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    minSdkVersion = ai.minSdkVersion
+                }
+                val targetSdkVersion = ai.targetSdkVersion
+                val isSystem = (ApplicationInfo.FLAG_SYSTEM and ai.flags) != 0
+
+                return AppInfo(
+                    packageName, name, icon, packagePath, versionName, versionCode,
+                    minSdkVersion, targetSdkVersion, isSystem
+                )
+            } catch (e: PackageManager.NameNotFoundException) {
+                e.printStackTrace()
+                null
+            }
+        } ?: return null
     }
 
     /**
