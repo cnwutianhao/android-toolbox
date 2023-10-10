@@ -65,6 +65,10 @@ getApkInfo                        : 获取 Apk 信息
 isFirstTimeInstalled              : 判断应用是否首次安装
 ```
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=cnwutianhao/android-toolbox&type=Date)](https://star-history.com/#cnwutianhao/android-toolbox&Date)
+
 ## License
 
 ```
