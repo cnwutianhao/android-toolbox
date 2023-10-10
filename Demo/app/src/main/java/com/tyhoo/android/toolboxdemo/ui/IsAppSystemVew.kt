@@ -20,10 +20,10 @@ import androidx.core.widget.addTextChangedListener
 import com.tyhoo.android.toolbox.AppUtils
 
 /**
- * 判断 App 是否安装
+ * 判断 App 是否是系统应用
  */
 @Composable
-fun IsAppInstalledView() {
+fun IsAppSystemVew() {
     val context = LocalContext.current
 
     var searchText by remember { mutableStateOf("") }
@@ -45,10 +45,10 @@ fun IsAppInstalledView() {
                 searchResultText = if (searchText.isEmpty()) {
                     "请输入应用包名"
                 } else {
-                    if (AppUtils.isAppInstalled(context, searchText)) {
-                        "App 已安装"
+                    if (AppUtils.isAppSystem(context, searchText)) {
+                        "App 是系统应用"
                     } else {
-                        "App 未安装"
+                        "App 不是系统应用"
                     }
                 }
             }, modifier = Modifier

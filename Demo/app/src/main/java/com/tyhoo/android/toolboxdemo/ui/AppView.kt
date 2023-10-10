@@ -54,55 +54,23 @@ fun AppView(navController: NavHostController) {
     LazyColumn(modifier = Modifier.padding(8.dp)) {
         items(items) { item ->
             ClickableText(text = AnnotatedString(item), onClick = {
-                if (item == "判断 App 是否安装") {
-                    navController.navigate("IsAppInstalledView")
-                } else {
-                    GlobalUtils.showToast(context, "功能开发中")
+                when (item) {
+                    "判断 App 是否安装" -> navController.navigate("IsAppInstalledView")
+                    "判断 App 是否是 Debug 版本" -> navController.navigate("IsAppDebugView")
+                    "判断 App 是否是系统应用" -> navController.navigate("IsAppSystemVew")
+                    "获取 App 图标" -> navController.navigate("GetAppIconView")
+                    "获取 App 包名" -> navController.navigate("GetAppPackageNameView")
+                    "获取 App 名称" -> navController.navigate("GetAppNameView")
+                    "获取 App 路径" -> navController.navigate("GetAppPathView")
+                    "获取 App 版本号" -> navController.navigate("GetAppVersionNameView")
+                    "获取 App 版本码" -> navController.navigate("GetAppVersionCodeView")
+                    "获取 App 支持最低系统版本号" -> navController.navigate("GetAppMinSdkVersionView")
+                    "获取 App 目标系统版本号" -> navController.navigate("GetAppTargetSdkVersionView")
+                    "获取 App 信息" -> navController.navigate("GetAppInfoView")
+                    "判断应用是否首次安装" -> navController.navigate("IsFirstTimeInstalledView")
+                    else -> GlobalUtils.showToast(context, "${item}功能开发中")
                 }
             })
-            Divider(color = Color.Gray, thickness = 1.dp)
-        }
-    }
-}
-
-@Preview
-@Composable
-fun PreviewAppView() {
-    val items = listOf(
-        "注册 App 前后台切换监听器",
-        "注销 App 前后台切换监听器",
-        "安装 App",
-        "卸载 App",
-        "判断 App 是否安装",
-        "判断 App 是否有 root 权限",
-        "判断 App 是否是 Debug 版本",
-        "判断 App 是否是系统应用",
-        "判断 App 是否处于前台",
-        "判断 App 是否运行",
-        "打开 App",
-        "重启 App",
-        "打开 App 具体设置",
-        "关闭应用",
-        "获取 App 图标",
-        "获取 App 包名",
-        "获取 App 名称",
-        "获取 App 路径",
-        "获取 App 版本号",
-        "获取 App 版本码",
-        "获取 App 支持最低系统版本号",
-        "获取 App 目标系统版本号",
-        "获取 App 签名",
-        "获取应用签名的的 SHA1 值",
-        "获取应用签名的的 SHA256 值",
-        "获取应用签名的的 MD5 值",
-        "获取 App 信息",
-        "获取所有已安装 App 信息",
-        "获取 Apk 信息",
-        "判断应用是否首次安装"
-    )
-    LazyColumn(modifier = Modifier.padding(8.dp)) {
-        items(items) { item ->
-            Text(text = item)
             Divider(color = Color.Gray, thickness = 1.dp)
         }
     }

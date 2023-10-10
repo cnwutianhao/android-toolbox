@@ -1,9 +1,12 @@
 package com.tyhoo.android.toolboxdemo.ui
 
+import android.graphics.drawable.Drawable
 import android.widget.EditText
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,17 +20,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.widget.addTextChangedListener
+import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import com.tyhoo.android.toolbox.AppUtils
 
 /**
- * 判断 App 是否安装
+ * 获取 App 图标
  */
 @Composable
-fun IsAppInstalledView() {
+fun GetAppIconView() {
     val context = LocalContext.current
 
     var searchText by remember { mutableStateOf("") }
     var searchResultText by remember { mutableStateOf("") }
+    var appIcon by remember { mutableStateOf<Drawable?>(null) }
 
     Column(modifier = Modifier.padding(8.dp)) {
         AndroidView(factory = { context ->
@@ -45,12 +50,10 @@ fun IsAppInstalledView() {
                 searchResultText = if (searchText.isEmpty()) {
                     "请输入应用包名"
                 } else {
-                    if (AppUtils.isAppInstalled(context, searchText)) {
-                        "App 已安装"
-                    } else {
-                        "App 未安装"
-                    }
+                    ""
                 }
+
+                appIcon = AppUtils.getAppIcon(context, searchText)
             }, modifier = Modifier
                 .padding(top = 8.dp)
                 .align(Alignment.CenterHorizontally)
@@ -64,5 +67,16 @@ fun IsAppInstalledView() {
                 .padding(top = 8.dp)
                 .align(Alignment.CenterHorizontally)
         )
+
+        appIcon?.let { drawable ->
+            Image(
+                painter = rememberDrawablePainter(drawable = drawable),
+                contentDescription = "App Icon",
+                modifier = Modifier
+                    .size(100.dp)
+                    .padding(top = 8.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
+        }
     }
 }
