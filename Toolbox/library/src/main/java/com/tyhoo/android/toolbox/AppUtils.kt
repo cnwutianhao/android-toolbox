@@ -1,55 +1,69 @@
 package com.tyhoo.android.toolbox
 
+import android.app.ActivityManager
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Build
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.tyhoo.android.toolbox.data.AppInfo
 
 /**
- * EN: Utils about App.
- * CN: App 相关
+ * Utils about App,
+ * App 相关
  *
- * Author: Tyhoo Wu
- * Blog: https://cnwutianhao.github.io
- * GitHub: https://github.com/cnwutianhao
- * Creation date: 2023-10-09
- * Last update date: 2023-10-09
+ * <pre>
+ *      Author: Tyhoo Wu
+ *      Blog: https://cnwutianhao.github.io
+ *      GitHub: https://github.com/cnwutianhao
+ *      Creation date: 2023-10-09
+ *      Last update date: 2023-10-10
+ * </pre>
  */
 object AppUtils {
 
+    private lateinit var appStatusChangeListener: AppStatusChangeListener
+
     /**
-     * EN: Register app status changed listener
-     * CN: 注册 App 前后台切换监听器
+     * Register app status changed listener,
+     * 注册 App 前后台切换监听器
+     *
+     * @param listener The status of application changed listener
      */
-    fun registerAppStatusChangedListener() {
+    fun registerAppStatusChangedListener(listener: AppStatusChangedListener) {
+        appStatusChangeListener = AppStatusChangeListener(listener)
+        appStatusChangeListener.register()
+        ProcessLifecycleOwner.get().lifecycle.addObserver(appStatusChangeListener)
     }
 
     /**
-     * EN: Unregister app status changed listener
-     * CN: 注销 App 前后台切换监听器
+     * Unregister app status changed listener,
+     * 注销 App 前后台切换监听器
      */
     fun unregisterAppStatusChangedListener() {
+        if (::appStatusChangeListener.isInitialized) {
+            appStatusChangeListener.unregister()
+        }
     }
 
     /**
-     * EN: Install app
-     * CN: 安装 App
+     * Install app,
+     * 安装 App
      */
     fun installApp() {
     }
 
     /**
-     * EN: Uninstall App
-     * CN: 卸载 App
+     * Uninstall App,
+     * 卸载 App
      */
     fun uninstallApp() {
     }
 
     /**
-     * EN: Is app installed
-     * CN: 判断 App 是否安装
+     * Is app installed,
+     * 判断 App 是否安装
      *
      * @param context     Context
      * @param packageName The name of the package
@@ -58,8 +72,8 @@ object AppUtils {
      */
     fun isAppInstalled(context: Context, packageName: String?): Boolean {
         packageName?.let { pkgName ->
-            val pm = context.packageManager
             return try {
+                val pm = context.packageManager
                 pm.getApplicationInfo(pkgName, 0).enabled
             } catch (e: PackageManager.NameNotFoundException) {
                 false
@@ -68,15 +82,15 @@ object AppUtils {
     }
 
     /**
-     * EN: Is app root
-     * CN: 判断 App 是否有 root 权限
+     * Is app root,
+     * 判断 App 是否有 root 权限
      */
     fun isAppRoot() {
     }
 
     /**
-     * EN: Is debug app
-     * CN: 判断 App 是否是 Debug 版本
+     * Is debug app,
+     * 判断 App 是否是 Debug 版本
      *
      * @param context     Context
      * @param packageName The name of the package
@@ -85,8 +99,8 @@ object AppUtils {
      */
     fun isAppDebug(context: Context, packageName: String?): Boolean {
         packageName?.let { pkgName ->
-            val pm = context.packageManager
             return try {
+                val pm = context.packageManager
                 val ai = pm.getApplicationInfo(pkgName, 0)
                 (ai.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
             } catch (e: PackageManager.NameNotFoundException) {
@@ -96,8 +110,8 @@ object AppUtils {
     }
 
     /**
-     * EN: Is system app
-     * CN: 判断 App 是否是系统应用
+     * Is system app,
+     * 判断 App 是否是系统应用
      *
      * @param context     Context
      * @param packageName The name of the package
@@ -106,8 +120,8 @@ object AppUtils {
      */
     fun isAppSystem(context: Context, packageName: String?): Boolean {
         packageName?.let { pkgName ->
-            val pm = context.packageManager
             return try {
+                val pm = context.packageManager
                 val ai = pm.getApplicationInfo(pkgName, 0)
                 (ai.flags and ApplicationInfo.FLAG_SYSTEM) != 0
             } catch (e: PackageManager.NameNotFoundException) {
@@ -117,50 +131,63 @@ object AppUtils {
     }
 
     /**
-     * EN: Is foreground app
-     * CN: 判断 App 是否处于前台
+     * Is foreground app,
+     * 判断 App 是否处于前台
      */
-    fun isAppForeground() {
+    fun isAppForeground(context: Context, packageName: String?): Boolean {
+        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+
+        val appProcesses = activityManager.runningAppProcesses
+        if (appProcesses != null) {
+            for (processInfo in appProcesses) {
+                if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND &&
+                    processInfo.processName == packageName
+                ) {
+                    return true
+                }
+            }
+        }
+        return false
     }
 
     /**
-     * EN: Is app Running
-     * CN: 判断 App 是否运行
+     * Is app Running,
+     * 判断 App 是否运行
      */
     fun isAppRunning() {
     }
 
     /**
-     * EN: Launch app
-     * CN: 打开 App
+     * Launch app,
+     * 打开 App
      */
     fun launchApp() {
     }
 
     /**
-     * EN: Relaunch app
-     * CN: 重启 App
+     * Relaunch app,
+     * 重启 App
      */
     fun relaunchApp() {
     }
 
     /**
-     * EN: Launch app details settings
-     * CN: 打开 App 具体设置
+     * Launch app details settings,
+     * 打开 App 具体设置
      */
     fun launchAppDetailsSettings() {
     }
 
     /**
-     * EN: Exit app
-     * CN: 关闭应用
+     * Exit app,
+     * 关闭应用
      */
     fun exitApp() {
     }
 
     /**
-     * EN: Get app icon
-     * CN: 获取 App 图标
+     * Get app icon,
+     * 获取 App 图标
      *
      * @param context     Context
      * @param packageName The name of the package
@@ -169,8 +196,8 @@ object AppUtils {
      */
     fun getAppIcon(context: Context, packageName: String?): Drawable? {
         packageName?.let { pkgName ->
-            val pm = context.packageManager
             return try {
+                val pm = context.packageManager
                 val pi = pm.getPackageInfo(pkgName, 0)
                 pi?.applicationInfo?.loadIcon(pm)
             } catch (e: PackageManager.NameNotFoundException) {
@@ -181,8 +208,8 @@ object AppUtils {
     }
 
     /**
-     * EN: Get app package name
-     * CN: 获取 App 包名
+     * Get app package name,
+     * 获取 App 包名
      *
      * @param context Context
      *
@@ -193,8 +220,8 @@ object AppUtils {
     }
 
     /**
-     * EN: Get app name
-     * CN: 获取 App 名称
+     * Get app name,
+     * 获取 App 名称
      *
      * @param context     Context
      * @param packageName The name of the package
@@ -203,8 +230,8 @@ object AppUtils {
      */
     fun getAppName(context: Context, packageName: String?): String {
         packageName?.let { pkgName ->
-            val pm = context.packageManager
             return try {
+                val pm = context.packageManager
                 val pi = pm.getPackageInfo(pkgName, 0)
                 pi.applicationInfo.loadLabel(pm).toString()
             } catch (e: PackageManager.NameNotFoundException) {
@@ -215,8 +242,8 @@ object AppUtils {
     }
 
     /**
-     * EN: Get app path
-     * CN: 获取 App 路径
+     * Get app path,
+     * 获取 App 路径
      *
      * @param context     Context
      * @param packageName The name of the package
@@ -225,8 +252,8 @@ object AppUtils {
      */
     fun getAppPath(context: Context, packageName: String?): String {
         packageName?.let { pkgName ->
-            val pm = context.packageManager
             return try {
+                val pm = context.packageManager
                 val pi = pm.getPackageInfo(pkgName, 0)
                 pi.applicationInfo.sourceDir ?: ""
             } catch (e: PackageManager.NameNotFoundException) {
@@ -237,8 +264,8 @@ object AppUtils {
     }
 
     /**
-     * EN: Get app version name
-     * CN: 获取 App 版本号
+     * Get app version name,
+     * 获取 App 版本号
      *
      * @param context     Context
      * @param packageName The name of the package
@@ -247,8 +274,8 @@ object AppUtils {
      */
     fun getAppVersionName(context: Context, packageName: String?): String {
         packageName?.let { pkgName ->
-            val pm = context.packageManager
             return try {
+                val pm = context.packageManager
                 val pi = pm.getPackageInfo(pkgName, 0)
                 pi.versionName ?: ""
             } catch (e: PackageManager.NameNotFoundException) {
@@ -259,8 +286,8 @@ object AppUtils {
     }
 
     /**
-     * EN: Get app version code
-     * CN: 获取 App 版本码
+     * Get app version code,
+     * 获取 App 版本码
      *
      * @param context     Context
      * @param packageName The name of the package
@@ -269,8 +296,8 @@ object AppUtils {
      */
     fun getAppVersionCode(context: Context, packageName: String?): Int {
         packageName?.let { pkgName ->
-            val pm = context.packageManager
             return try {
+                val pm = context.packageManager
                 val pi = pm.getPackageInfo(pkgName, 0)
                 pi?.versionCode ?: -1
             } catch (e: PackageManager.NameNotFoundException) {
@@ -281,8 +308,8 @@ object AppUtils {
     }
 
     /**
-     * EN: Get app min sdk version
-     * CN: 获取 App 支持最低系统版本号
+     * Get app min sdk version,
+     * 获取 App 支持最低系统版本号
      *
      * @param context     Context
      * @param packageName The name of the package
@@ -295,8 +322,8 @@ object AppUtils {
                 return -1
             }
 
-            val pm = context.packageManager
             return try {
+                val pm = context.packageManager
                 val pi = pm.getPackageInfo(pkgName, 0)
                 val ai = pi.applicationInfo
                 ai.minSdkVersion
@@ -308,8 +335,8 @@ object AppUtils {
     }
 
     /**
-     * EN: Get app target sdk version
-     * CN: 获取 App 目标系统版本号
+     * Get app target sdk version,
+     * 获取 App 目标系统版本号
      *
      * @param context     Context
      * @param packageName The name of the package
@@ -318,8 +345,8 @@ object AppUtils {
      */
     fun getAppTargetSdkVersion(context: Context, packageName: String?): Int {
         packageName?.let { pkgName ->
-            val pm = context.packageManager
             return try {
+                val pm = context.packageManager
                 val pi = pm.getPackageInfo(pkgName, 0)
                 val ai = pi.applicationInfo
                 ai.targetSdkVersion
@@ -331,36 +358,36 @@ object AppUtils {
     }
 
     /**
-     * EN: Get app signatures
-     * CN: 获取 App 签名
+     * Get app signatures,
+     * 获取 App 签名
      */
     fun getAppSignatures() {
     }
 
     /**
-     * EN: Get app signatures SHA1
-     * CN: 获取应用签名的的 SHA1 值
+     * Get app signatures SHA1,
+     * 获取应用签名的的 SHA1 值
      */
     fun getAppSignaturesSHA1() {
     }
 
     /**
-     * EN: Get app signatures SHA256
-     * CN: 获取应用签名的的 SHA256 值
+     * Get app signatures SHA256,
+     * 获取应用签名的的 SHA256 值
      */
     fun getAppSignaturesSHA256() {
     }
 
     /**
-     * EN: Get app signatures MD5
-     * CN: 获取应用签名的的 MD5 值
+     * Get app signatures MD5,
+     * 获取应用签名的的 MD5 值
      */
     fun getAppSignaturesMD5() {
     }
 
     /**
-     * EN: Get app info
-     * CN: 获取 App 信息
+     * Get app info,
+     * 获取 App 信息
      *
      * @param context     Context
      * @param packageName The name of the package
@@ -369,8 +396,8 @@ object AppUtils {
      */
     fun getAppInfo(context: Context, packageName: String?): AppInfo? {
         packageName?.let { pkgName ->
-            val pm = context.packageManager
             return try {
+                val pm = context.packageManager
                 val pi = pm.getPackageInfo(pkgName, 0)
                 val ai = pi.applicationInfo
 
@@ -379,14 +406,12 @@ object AppUtils {
                 val packagePath = ai.sourceDir
                 val versionName = pi.versionName
                 val versionCode = pi.versionCode
-                var minSdkVersion = -1
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    minSdkVersion = ai.minSdkVersion
-                }
+                val minSdkVersion =
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) ai.minSdkVersion else -1
                 val targetSdkVersion = ai.targetSdkVersion
                 val isSystem = (ApplicationInfo.FLAG_SYSTEM and ai.flags) != 0
 
-                return AppInfo(
+                AppInfo(
                     packageName, name, icon, packagePath, versionName, versionCode,
                     minSdkVersion, targetSdkVersion, isSystem
                 )
@@ -398,22 +423,79 @@ object AppUtils {
     }
 
     /**
-     * EN: Get apps info
-     * CN: 获取所有已安装 App 信息
+     * Get apps info,
+     * 获取所有已安装 App 信息
+     *
+     * @param context     Context
+     *
+     * @return the applications' information
      */
-    fun getAppsInfo() {
+    fun getAppsInfo(context: Context): List<AppInfo> {
+        val pm = context.packageManager
+        val installedPackages = pm.getInstalledPackages(0)
+
+        return installedPackages.mapNotNull { pi ->
+            val ai = pi.applicationInfo ?: return@mapNotNull null
+
+            val packageName = pi.packageName
+            val name = ai.loadLabel(pm).toString()
+            val icon = ai.loadIcon(pm)
+            val packagePath = ai.sourceDir
+            val versionName = pi.versionName
+            val versionCode = pi.versionCode
+            val minSdkVersion =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) ai.minSdkVersion else -1
+            val targetSdkVersion = ai.targetSdkVersion
+            val isSystem = (ApplicationInfo.FLAG_SYSTEM and ai.flags) != 0
+
+            AppInfo(
+                packageName, name, icon, packagePath, versionName, versionCode,
+                minSdkVersion, targetSdkVersion, isSystem
+            )
+        }
     }
 
     /**
-     * EN: Get apk info
-     * CN: 获取 Apk 信息
+     * Get apk info,
+     * 获取 Apk 信息
+     *
+     * @return the application's package information
      */
-    fun getApkInfo() {
+    fun getApkInfo(context: Context, apkFilePath: String): AppInfo? {
+        if (apkFilePath.isEmpty()) {
+            return null
+        }
+        val pm = context.packageManager
+        val pi = pm.getPackageArchiveInfo(apkFilePath, 0)
+
+        val appInfo = pi?.applicationInfo
+        return appInfo?.let { info ->
+            info.sourceDir = apkFilePath
+            info.publicSourceDir = apkFilePath
+
+            val ai = pi.applicationInfo
+
+            val packageName = pi.packageName
+            val name = ai.loadLabel(pm).toString()
+            val icon = ai.loadIcon(pm)
+            val packagePath = ai.sourceDir
+            val versionName = pi.versionName
+            val versionCode = pi.versionCode
+            val minSdkVersion =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) ai.minSdkVersion else -1
+            val targetSdkVersion = ai.targetSdkVersion
+            val isSystem = (ApplicationInfo.FLAG_SYSTEM and ai.flags) != 0
+
+            AppInfo(
+                packageName, name, icon, packagePath, versionName, versionCode,
+                minSdkVersion, targetSdkVersion, isSystem
+            )
+        }
     }
 
     /**
-     * EN: Is first time installed
-     * CN: 判断应用是否首次安装
+     * Is first time installed,
+     * 判断应用是否首次安装
      *
      * @param context     Context
      * @param packageName The name of the package
