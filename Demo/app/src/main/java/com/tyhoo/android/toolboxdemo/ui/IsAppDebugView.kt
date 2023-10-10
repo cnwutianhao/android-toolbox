@@ -20,10 +20,10 @@ import androidx.core.widget.addTextChangedListener
 import com.tyhoo.android.toolbox.AppUtils
 
 /**
- * 判断 App 是否安装
+ * 判断 App 是否是 Debug 版本
  */
 @Composable
-fun IsAppInstalledView() {
+fun IsAppDebugView() {
     val context = LocalContext.current
 
     var searchText by remember { mutableStateOf("") }
@@ -45,10 +45,10 @@ fun IsAppInstalledView() {
                 searchResultText = if (searchText.isEmpty()) {
                     "请输入应用包名"
                 } else {
-                    if (AppUtils.isAppInstalled(context, searchText)) {
-                        "App 已安装"
+                    if (AppUtils.isAppDebug(context, searchText)) {
+                        "App 是 Debug 版本"
                     } else {
-                        "App 未安装"
+                        "App 不是 Debug 版本"
                     }
                 }
             }, modifier = Modifier

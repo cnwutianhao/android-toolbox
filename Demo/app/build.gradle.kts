@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.tyhoo.android.toolboxdemo"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.tyhoo.android.toolboxdemo"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -64,11 +64,14 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
 
-    // AndroidToolbox
+    // AndroidToolbox.
     implementation("io.github.cnwutianhao:AndroidToolbox:1.0.1")
 
     // Navigation.
     implementation("androidx.navigation:navigation-compose:2.5.3")
+
+    // Accompanist Drawable Painter library.
+    implementation("com.google.accompanist:accompanist-drawablepainter:0.33.2-alpha")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
