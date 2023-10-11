@@ -45,7 +45,7 @@ isAppForeground                   : 判断 App 是否处于前台
 isAppRunning                      : 判断 App 是否运行
 launchApp                         : 打开 App
 relaunchApp                       : 重启 App
-launchAppDetailsSettings          : 打开 App 具体设置
+launchAppDetailsSettings          : 打开 App 详情设置页面
 exitApp                           : 关闭应用
 getAppIcon                        : 获取 App 图标
 getAppPackageName                 : 获取 App 包名
