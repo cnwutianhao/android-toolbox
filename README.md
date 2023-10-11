@@ -56,9 +56,9 @@ getAppVersionCode                 : 获取 App 版本码
 getAppMinSdkVersion               : 获取 App 支持最低系统版本号
 getAppTargetSdkVersion            : 获取 App 目标系统版本号
 getAppSignatures                  : 获取 App 签名
-getAppSignaturesSHA1              : 获取应用签名的的 SHA1 值
-getAppSignaturesSHA256            : 获取应用签名的的 SHA256 值
-getAppSignaturesMD5               : 获取应用签名的的 MD5 值
+getAppSignaturesSHA1              : 获取应用签名的 SHA1 值
+getAppSignaturesSHA256            : 获取应用签名的 SHA256 值
+getAppSignaturesMD5               : 获取应用签名的 MD5 值
 getAppInfo                        : 获取 App 信息
 getAppsInfo                       : 获取所有已安装 App 信息
 getApkInfo                        : 获取 Apk 信息
