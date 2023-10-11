@@ -2,12 +2,17 @@ package com.tyhoo.android.toolbox
 
 import android.app.ActivityManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.tyhoo.android.toolbox.data.AppInfo
+import java.security.MessageDigest
+import java.util.Locale
 
 /**
  * Utils about App,
@@ -133,6 +138,11 @@ object AppUtils {
     /**
      * Is foreground app,
      * 判断 App 是否处于前台
+     *
+     * @param context     Context
+     * @param packageName The name of the package
+     *
+     * @return true: yes, false: no
      */
     fun isAppForeground(context: Context, packageName: String?): Boolean {
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
@@ -173,9 +183,16 @@ object AppUtils {
 
     /**
      * Launch app details settings,
-     * 打开 App 具体设置
+     * 打开 App 详情设置页面
+     *
+     * @param context     Context
+     * @param packageName The name of the package
      */
-    fun launchAppDetailsSettings() {
+    fun launchAppDetailsSettings(context: Context, packageName: String?) {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        intent.data = Uri.parse("package:$packageName")
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(intent)
     }
 
     /**
@@ -366,21 +383,64 @@ object AppUtils {
 
     /**
      * Get app signatures SHA1,
-     * 获取应用签名的的 SHA1 值
+     * 获取应用签名的 SHA1 值
+     *
+     * @param context     Context
+     * @param packageName The name of the package
+     *
+     * @return the application's signature for SHA1 value
      */
-    fun getAppSignaturesSHA1() {
+    fun getAppSignaturesSHA1(context: Context, packageName: String?): String {
+        return packageName?.let { pkgName ->
+            val pi = context.packageManager.getPackageInfo(pkgName, PackageManager.GET_SIGNATURES)
+            val cert = pi.signatures[0].toByteArray()
+            val md = MessageDigest.getInstance("SHA1")
+            val publicKey = md.digest(cert)
+            val hexString = StringBuilder()
+            publicKey.forEachIndexed { index, byte ->
+                val appendString = "%02X".format(byte).uppercase(Locale.US)
+                if (appendString.length == 1) {
+                    hexString.append("0")
+                }
+                hexString.append(appendString)
+                if (index < publicKey.size - 1) {
+                    hexString.append(":")
+                }
+            }
+            hexString.toString()
+        } ?: ""
     }
 
     /**
      * Get app signatures SHA256,
-     * 获取应用签名的的 SHA256 值
+     * 获取应用签名的 SHA256 值
+     *
+     * @param context     Context
+     * @param packageName The name of the package
+     *
+     * @return the application's signature for SHA256 value
      */
-    fun getAppSignaturesSHA256() {
+    fun getAppSignaturesSHA256(context: Context, packageName: String?): String {
+        return packageName?.let { pkgName ->
+            val pi = context.packageManager.getPackageInfo(pkgName, PackageManager.GET_SIGNATURES)
+            val cert = pi.signatures[0].toByteArray()
+            val md = MessageDigest.getInstance("SHA-256")
+            val publicKey = md.digest(cert)
+            val hexString = StringBuilder()
+            publicKey.forEachIndexed { index, byte ->
+                val appendString = "%02X".format(byte).uppercase(Locale.US)
+                hexString.append(appendString)
+                if (index < publicKey.size - 1) {
+                    hexString.append(":")
+                }
+            }
+            hexString.toString()
+        } ?: ""
     }
 
     /**
      * Get app signatures MD5,
-     * 获取应用签名的的 MD5 值
+     * 获取应用签名的 MD5 值
      */
     fun getAppSignaturesMD5() {
     }
@@ -426,7 +486,7 @@ object AppUtils {
      * Get apps info,
      * 获取所有已安装 App 信息
      *
-     * @param context     Context
+     * @param context Context
      *
      * @return the applications' information
      */
@@ -458,6 +518,9 @@ object AppUtils {
     /**
      * Get apk info,
      * 获取 Apk 信息
+     *
+     * @param context     Context
+     * @param apkFilePath The apk file path
      *
      * @return the application's package information
      */
