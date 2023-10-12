@@ -9,8 +9,11 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.tyhoo.android.toolbox.data.AppInfo
+import java.io.File
 import java.security.MessageDigest
 import java.util.Locale
 
@@ -55,15 +58,42 @@ object AppUtils {
     /**
      * Install app,
      * 安装 App
+     *
+     * @param context     Context
+     * @param apkFilePath The apk file path
      */
-    fun installApp() {
+    fun installApp(context: Context, apkFilePath: String?) {
+        apkFilePath?.let { path ->
+            val file = File(path)
+            val apkUri =
+                FileProvider.getUriForFile(context, context.packageName + ".fileprovider", file)
+
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(apkUri, "application/vnd.android.package-archive")
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+
+            intent.resolveActivity(context.packageManager)?.let {
+                context.startActivity(intent)
+            }
+        }
     }
 
     /**
      * Uninstall App,
      * 卸载 App
+     *
+     * @param context     Context
+     * @param packageName The name of the package
      */
-    fun uninstallApp() {
+    fun uninstallApp(context: Context, packageName: String?) {
+        packageName?.let { pkgName ->
+            val intent = Intent(Intent.ACTION_DELETE).apply {
+                data = Uri.parse("package:$pkgName")
+            }
+            context.startActivity(intent)
+        }
     }
 
     /**
@@ -171,14 +201,29 @@ object AppUtils {
      * Launch app,
      * 打开 App
      */
-    fun launchApp() {
+    fun launchApp(context: Context, packageName: String?) {
+        packageName?.let { pkgName ->
+            val pm = context.packageManager
+            val intent = pm.getLaunchIntentForPackage(pkgName)
+            intent?.let { launchIntent ->
+                context.startActivity(launchIntent)
+            }
+        }
     }
 
     /**
      * Relaunch app,
      * 重启 App
      */
-    fun relaunchApp() {
+    fun relaunchApp(context: Context, packageName: String?) {
+        packageName?.let { pkgName ->
+            val pm = context.packageManager
+            val intent = pm.getLaunchIntentForPackage(pkgName)
+            intent?.let { launchIntent ->
+                launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                context.startActivity(launchIntent)
+            }
+        }
     }
 
     /**
