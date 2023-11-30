@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-  implementation 'io.github.cnwutianhao:AndroidToolbox:1.0.2'
+  implementation 'io.github.cnwutianhao:AndroidToolbox:1.0.3'
 }
 ```
 
@@ -28,7 +28,7 @@ Or Maven:
 <dependency>
     <groupId>io.github.cnwutianhao</groupId>
     <artifactId>AndroidToolbox</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
