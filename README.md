@@ -34,7 +34,7 @@ Or Maven:
 
 ## APIs
 
-* ### App 相关 -> [AppUtils.kt](https://github.com/cnwutianhao/android-toolbox/blob/main/Toolbox/library/src/main/java/com/tyhoo/android/toolbox/AppUtils.kt)
+* ### App 相关 -> [AppUtils.kt](https://github.com/cnwutianhao/android-toolbox/blob/main/Toolbox/library/src/main/java/com/tyhoo/android/toolbox/util/AppUtils.kt)
 ```
 registerAppStatusChangedListener  : 注册 App 前后台切换监听器
 unregisterAppStatusChangedListener: 注销 App 前后台切换监听器
@@ -66,6 +66,25 @@ getAppInfo                        : 获取 App 信息
 getAppsInfo                       : 获取所有已安装 App 信息
 getApkInfo                        : 获取 Apk 信息
 isFirstTimeInstalled              : 判断应用是否首次安装
+```
+
+* ### 设备相关 -> [DeviceUtils.kt](https://github.com/cnwutianhao/android-toolbox/blob/main/Toolbox/library/src/main/java/com/tyhoo/android/toolbox/util/DeviceUtils.kt)
+```
+isDeviceRooted                    : 判断设备是否 rooted
+isADBEnabled                      : 判断设备 ADB 是否可用
+getSDKVersionName                 : 获取设备系统版本号
+getSDKVersionCode                 : 获取设备系统版本码
+getSDKVersionCode                 : 判断 App 是否安装
+getAndroidID                      : 获取设备 AndroidID
+getMacAddress                     : 获取设备 MAC 地址
+getManufacturer                   : 获取设备厂商
+getModel                          : 获取设备型号
+getABIs                           : 获取设备 ABIs
+isTablet                          : 判断是否是平板
+isEmulator                        : 判断是否是模拟器
+isDevelopmentSettingsEnabled      : 开发者选项是否打开
+getUniqueDeviceId                 : 获取唯一设备 ID
+getTotalMemorySize                : 获取设备总内存大小（单位：字节）
 ```
 
 ## Star History
