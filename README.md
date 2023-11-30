@@ -49,7 +49,7 @@ isAppRunning                      : 判断 App 是否运行
 launchApp                         : 打开 App
 relaunchApp                       : 重启 App
 launchAppDetailsSettings          : 打开 App 详情设置页面
-exitApp                           : 关闭应用
+exitApp                           : 关闭 App
 getAppIcon                        : 获取 App 图标
 getAppPackageName                 : 获取 App 包名
 getAppName                        : 获取 App 名称
@@ -59,13 +59,13 @@ getAppVersionCode                 : 获取 App 版本码
 getAppMinSdkVersion               : 获取 App 支持最低系统版本号
 getAppTargetSdkVersion            : 获取 App 目标系统版本号
 getAppSignatures                  : 获取 App 签名
-getAppSignaturesSHA1              : 获取应用签名的 SHA1 值
-getAppSignaturesSHA256            : 获取应用签名的 SHA256 值
-getAppSignaturesMD5               : 获取应用签名的 MD5 值
+getAppSignaturesSHA1              : 获取 App 签名的 SHA1 值
+getAppSignaturesSHA256            : 获取 App 签名的 SHA256 值
+getAppSignaturesMD5               : 获取 App 签名的 MD5 值
 getAppInfo                        : 获取 App 信息
 getAppsInfo                       : 获取所有已安装 App 信息
 getApkInfo                        : 获取 Apk 信息
-isFirstTimeInstalled              : 判断应用是否首次安装
+isFirstTimeInstalled              : 判断 App 是否首次安装
 ```
 
 * ### 设备相关 -> [DeviceUtils.kt](https://github.com/cnwutianhao/android-toolbox/blob/main/Toolbox/library/src/main/java/com/tyhoo/android/toolbox/util/DeviceUtils.kt)
@@ -74,7 +74,6 @@ isDeviceRooted                    : 判断设备是否 rooted
 isADBEnabled                      : 判断设备 ADB 是否可用
 getSDKVersionName                 : 获取设备系统版本号
 getSDKVersionCode                 : 获取设备系统版本码
-getSDKVersionCode                 : 判断 App 是否安装
 getAndroidID                      : 获取设备 AndroidID
 getMacAddress                     : 获取设备 MAC 地址
 getManufacturer                   : 获取设备厂商
