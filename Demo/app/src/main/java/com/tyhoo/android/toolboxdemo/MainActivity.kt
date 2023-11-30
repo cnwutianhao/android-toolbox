@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.tyhoo.android.toolboxdemo.ui.AppView
+import com.tyhoo.android.toolboxdemo.ui.DeviceView
 import com.tyhoo.android.toolboxdemo.ui.ExitAppView
 import com.tyhoo.android.toolboxdemo.ui.GetApkInfoView
 import com.tyhoo.android.toolboxdemo.ui.GetAppIconView
@@ -89,6 +90,9 @@ class MainActivity : ComponentActivity() {
                         composable("GetAppsInfoView") { GetAppsInfoView() }
                         composable("GetApkInfoView") { GetApkInfoView() }
                         composable("IsFirstTimeInstalledView") { IsFirstTimeInstalledView() }
+
+                        // 设备相关
+                        composable("DeviceView") { DeviceView() }
                     }
                 }
             }

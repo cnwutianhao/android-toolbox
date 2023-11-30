@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.widget.addTextChangedListener
-import com.tyhoo.android.toolbox.AppUtils
+import com.tyhoo.android.toolbox.util.AppUtils
 
 /**
  * 判断 App 是否安装

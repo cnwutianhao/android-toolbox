@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.tyhoo.android.toolbox.AppUtils
+import com.tyhoo.android.toolbox.util.AppUtils
 
 @Composable
 fun UnregisterAppStatusChangedListenerView() {

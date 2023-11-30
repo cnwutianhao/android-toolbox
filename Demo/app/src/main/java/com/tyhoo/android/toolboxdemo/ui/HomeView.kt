@@ -37,10 +37,10 @@ fun HomeView(navController: NavHostController) {
                 text = item,
                 style = TextStyle(fontSize = 20.sp),
                 modifier = Modifier.clickable {
-                    if (item == "App 相关") {
-                        navController.navigate("AppView")
-                    } else {
-                        GlobalUtils.showToast(context, "功能开发中")
+                    when (item) {
+                        "App 相关" -> navController.navigate("AppView")
+                        "设备相关" -> navController.navigate("DeviceView")
+                        else -> GlobalUtils.showToast(context, "功能开发中")
                     }
                 }
             )

@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.widget.addTextChangedListener
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
-import com.tyhoo.android.toolbox.AppUtils
+import com.tyhoo.android.toolbox.util.AppUtils
 
 /**
  * 获取 App 图标
