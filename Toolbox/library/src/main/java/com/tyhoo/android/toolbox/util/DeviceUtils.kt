@@ -17,7 +17,7 @@ import java.io.File
  *      Blog: https://cnwutianhao.github.io
  *      GitHub: https://github.com/cnwutianhao
  *      Creation date: 2023-11-23
- *      Last update date: 2023-11-29
+ *      Last update date: 2023-11-30
  * </pre>
  */
 object DeviceUtils {
