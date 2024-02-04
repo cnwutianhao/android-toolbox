@@ -90,6 +90,10 @@ getTotalMemorySize                : 获取设备总内存大小（单位：字�
 
 [![Star History Chart](https://api.star-history.com/svg?repos=cnwutianhao/android-toolbox&type=Date)](https://star-history.com/#cnwutianhao/android-toolbox&Date)
 
+## Repo Activity
+
+![Repo Activity](https://repobeats.axiom.co/api/embed/5dc25fd2279d8526ff38316d6c26b54d155db06b.svg "Repobeats analytics image")
+
 ## License
 
 ```
